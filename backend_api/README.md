@@ -42,13 +42,19 @@ The backend reads configuration from environment variables with sensible default
 - STORAGE_DIR (default: "./storage")
 - MAX_FILE_SIZE_MB (default: 25)
 - ALLOWED_ORIGINS (default: "http://localhost:3000")
-  - Comma-separated list; used for CORS.
+  - Comma-separated list; used for CORS. Ensure it includes the exact frontend origin.
+
+You can copy `.env.example` to `.env` and export variables in your shell or use a process manager that injects them.
 
 Example:
 ```bash
+# Local development
 export STORAGE_DIR=./storage
 export MAX_FILE_SIZE_MB=25
 export ALLOWED_ORIGINS=http://localhost:3000
+
+# Preview environment (replace with your actual preview frontend origin)
+export ALLOWED_ORIGINS=https://vscode-internal-39135-beta.beta01.cloud.kavia.ai:3000
 ```
 
 ## API
