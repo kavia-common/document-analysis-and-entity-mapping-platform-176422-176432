@@ -1,6 +1,3 @@
-import io
-import os
-import pytest
 from PIL import Image
 
 from src.services.parsing import parse_file_to_text

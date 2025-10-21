@@ -1,8 +1,6 @@
 import io
 import pytest
 
-from sqlalchemy import select
-from src.db.models import Mapping, Entity
 from src.services.taxonomy import upsert_mapping, apply_mappings_to_entities
 
 @pytest.mark.pg_required
@@ -16,9 +14,8 @@ def test_upsert_mapping_and_apply(client):
     # We cannot directly access session from client; import get_async_session and run small async flow
     import asyncio
     from src.db.session import get_async_session
-    from sqlalchemy.ext.asyncio import AsyncSession
     from sqlalchemy import select
-    from src.db.models import Job, Document, Extraction
+    from src.db.models import Document, Extraction
 
     async def _work():
         async with get_async_session() as s:  # type: ignore

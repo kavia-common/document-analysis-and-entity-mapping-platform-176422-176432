@@ -1,5 +1,4 @@
 import io
-import os
 import pytest
 
 @pytest.mark.pg_required
@@ -17,7 +16,7 @@ def test_generate_report_meta_sheets_is_five(client, tmp_path):
     # We will import a session and check latest report meta.
     import asyncio
     from src.db.session import get_async_session
-    from sqlalchemy.ext.asyncio import AsyncSession
+
     from sqlalchemy import select
     from src.db.models import Report
 

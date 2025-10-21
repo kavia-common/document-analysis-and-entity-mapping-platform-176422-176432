@@ -1,14 +1,8 @@
 import os
-import io
-import asyncio
-import tempfile
-import shutil
-from contextlib import asynccontextmanager
 
 import pytest
 import anyio
 from starlette.testclient import TestClient
-from fastapi import FastAPI
 from dotenv import load_dotenv
 
 # Make sure env is loaded

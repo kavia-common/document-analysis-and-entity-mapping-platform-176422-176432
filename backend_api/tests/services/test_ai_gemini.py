@@ -1,4 +1,3 @@
-import asyncio
 import pytest
 from src.services.ai_gemini import extract_entities_with_gemini
 

@@ -1,8 +1,5 @@
 import io
-import time
 import pytest
-
-from src.services.progress import ProgressTracker
 
 @pytest.mark.pg_required
 def test_get_job_status_404_when_missing(client):
