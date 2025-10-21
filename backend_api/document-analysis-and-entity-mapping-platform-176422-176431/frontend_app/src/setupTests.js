@@ -5,9 +5,18 @@ const { TextEncoder, TextDecoder } = require('util');
 if (!global.TextEncoder) global.TextEncoder = TextEncoder;
 if (!global.TextDecoder) global.TextDecoder = TextDecoder;
 
-// Ensure fetch exists on global for Node
+// Ensure fetch exists on global for Node (jsdom may already provide window.fetch via whatwg-fetch)
 if (typeof global.fetch === 'undefined' && typeof window !== 'undefined' && window.fetch) {
   global.fetch = window.fetch;
 }
 
-// Note: Keep any existing MSW server setup (if present) below these polyfills so that libraries relying on them work correctly.
+/**
+ * If your project uses MSW for API mocking in tests, ensure the server import and lifecycle hooks
+ * (server.listen(), server.resetHandlers(), server.close()) are placed AFTER the polyfills above.
+ * Example:
+ *
+ * import { server } from './mocks/server';
+ * beforeAll(() => server.listen());
+ * afterEach(() => server.resetHandlers());
+ * afterAll(() => server.close());
+ */
