@@ -1,4 +1,3 @@
-import os
 from typing import Any
 
 from fastapi import FastAPI, Depends
@@ -7,8 +6,17 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from dotenv import load_dotenv
 
 from src.db.session import get_async_session
+from src.core.config import get_settings
+from src.core.logger import get_logger
+
+# Routers
+from .routes.uploads import router as uploads_router
+from .routes.jobs import router as jobs_router
+from .routes.taxonomy import router as taxonomy_router
 
 load_dotenv()
+settings = get_settings()
+logger = get_logger(__name__)
 
 app = FastAPI(
     title="Document Analysis and Entity Mapping API",
@@ -23,8 +31,7 @@ app = FastAPI(
     ],
 )
 
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "*")
-origins = [o.strip() for o in allowed_origins.split(",")] if allowed_origins else ["*"]
+origins = settings.ALLOWED_ORIGINS
 
 app.add_middleware(
     CORSMiddleware,
@@ -51,3 +58,8 @@ async def db_ping(session: AsyncSession = Depends(get_async_session)) -> dict[st
     """
     await session.execute("SELECT 1")
     return {"ok": True}
+
+# Include routers
+app.include_router(uploads_router, prefix="", tags=["jobs"])
+app.include_router(jobs_router, prefix="", tags=["jobs"])
+app.include_router(taxonomy_router, prefix="", tags=["taxonomy"])
