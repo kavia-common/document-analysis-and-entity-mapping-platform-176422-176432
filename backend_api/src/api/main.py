@@ -31,12 +31,21 @@ app = FastAPI(
     ],
 )
 
-origins = settings.ALLOWED_ORIGINS
+# Configure CORS using ALLOWED_ORIGINS from environment.
+# The env var supports comma-separated values, already parsed in settings.
+allowed_origins = settings.ALLOWED_ORIGINS or ["*"]
+if "*" in allowed_origins:
+    # When wildcard is present, credentials must be disabled per CORS spec.
+    allow_credentials = False
+    logger.info("CORS: allowing all origins (credentials disabled)")
+else:
+    allow_credentials = True
+    logger.info("CORS: allowing origins: %s", allowed_origins)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
